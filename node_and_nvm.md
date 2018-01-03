@@ -72,3 +72,74 @@ Node.js' package ecosystem, npm, is the largest ecosystem of open source librari
     Node可以用来开发服务端应用程序，Web系统；
     基于Node的前端工具集
 
+# nodeJS的NVM环境配置以及常用的Windows命令  
+
+一，Windows下命令行工具Powershell和Cmd的区别？  
+>+CMD占用系统内存小，Powershell占用内存多  
+>+CMD只支持传统的windows命令，不支持.net库，也不支持Linux命令，Power shell支持  
+>+简言之，Power shell是CMD的超集，具体见：https://www.jianshu.com/p/931ae4c34120  
+
+二，Windows下卸载nodejs  
+>+从控制面板卸载node，然后把对应的安装目录删除  
+
+三，从nvm来实现node的版本控制，nvm安装，配置环境变量  
+## 安装包的方式安装  
+安装包下载链接：  
+    Mac OSX： darwin  
+    Windows：  
+        x64  
+        x86  
+    安装操作：  
+        一路  
+        Next...  
+        更新版本  
+    操作方式：  
+        重新下载最新的安装包；  
+        覆盖安装即可；  
+### 问题：  
+以前版本安装的很多全局的工具包需要重新安装  
+无法回滚到之前的版本  
+无法在多个版本之间切换（很多时候我们要使用特定版本）  
+### NVM工具的使用  
+Node Version Manager（Node版本管理工具）  
+由于以后的开发工作可能会在多个Node版本中测试，而且Node的版本也比较多，所以需要这么款工具来管理  
+## 安装操作步骤  
+    下载：nvm-windows  
+    解压到一个全英文路径  
+    编辑解压目录下的settings.txt文件（不存在则新建）  
+    root 配置为当前 nvm.exe 所在目录  
+    path 配置为 node 快捷方式所在的目录  
+    arch 配置为当前操作系统的位数（32/64）  
+    proxy 不用配置  
+    配置环境变量 可以通过 window+r : sysdm.cpl  
+    NVM_HOME = 当前 nvm.exe 所在目录  
+    NVM_SYMLINK = node 快捷方式所在的目录  
+    PATH += %NVM_HOME%;%NVM_SYMLINK%;  
+    打开CMD通过set [name]命令查看环境变量是否配置成功  
+    PowerShell中是通过dir env:[name]命令  
+    NVM使用说明：  
+    https://github.com/coreybutler/nvm-windows/  
+    NPM的目录之后使用再配置
+## 配置Python环境  
+Node中有些第三方的包是以C/C++源码的方式发布的，需要安装后编译 确保全局环境中可以使用python命令  
+
+## 环境变量的概念  
+>环境变量就是操作系统提供的系统级别用于存储变量的地方  
+    
+    Windows中环境变量分为系统变量和用户变量 
+    
+    环境变量的变量名是不区分大小写的
+    
+    特殊值：
+        PATH 变量：只要添加到 PATH 变量中的路径，都可以在任何目录下搜索
+## Windows下常用的命令行操作
+    切换当前目录（change directory）：cd
+    创建目录（make directory）：mkdir
+    查看当前目录列表（directory）：dir
+        别名：ls（list）
+    清空当前控制台：cls
+        别名：clear
+    删除文件：del
+        别名：rm
+    注意：所有别名必须在新版本的 PowerShell 中使用
+
