@@ -8,8 +8,16 @@ repl是nodejs中的一个模块（Read-Eval-Print Loop），repl在node中既可
 在node中我所熟知的几个常用的功能如下：  
 * 作为常用的计算器使用   
 * 测试使用，在node中全局对象global的对象都会在repl中，执行global即可读取global全部对象  
-* 执行js脚本 
-  
+* 执行js脚本  
+
+### Console  
+
+console属于nodejs中的一个输出到可控制台的模块，node中的console和浏览器端的console是属于不同的模块；  
+node中有可能会常用的参数如下：  
+* log() 将内容输出到终端  
+* log("%s") 控制相关的字符串输出  
+* 将错误信息输出到文件  
+* time()等将输出代码的执行时间
 
 ### 全局对象  
 
