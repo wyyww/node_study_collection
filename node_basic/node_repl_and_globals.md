@@ -32,12 +32,17 @@ node中有可能会常用的参数如下：  
 2.  console
 3.  process：用于获取当前的*node进程信息*，一般用于获取环境变量之类的  
   * argv:用于获取当前进程的命令行参数数组，第一二个参数分别为node和node的执行js文件，后面才是输入的参数
+   * process.env：指向当前shell的*环境变量*，比如process.env.HOME。
   * process.pid：当前进程的进程号。
   * process.version：Node的版本，比如v0.10.18。
   * process.platform：当前系统平台，比如Linux。
   * process.title：默认值为“node”，可以自定义该值。
-  * process.env：指向当前shell的环境变量，比如process.env.HOME。
   * process.execPath：运行当前进程的可执行文件的绝对路径。
   * process.stdout：指向标准输出。
   * process.stdin：指向标准输入。
-  * process.stderr：指向标准错误。
+  * process.stderr：指向标准错误。  
+  >process.stdout.write() 向控制台输出指定内容  
+  >node如何实现清空控制台：  
+  * 通过getWindowSize()获取控制台宽高，然后打印等高的换行实现；  
+  * 通过process.stdout.write('\033[2J')和process.stdout.write('\033[0f') 直接清空控制台
+  
