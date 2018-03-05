@@ -119,8 +119,15 @@ Node Version Manager（Node版本管理工具）
     PowerShell中是通过dir env:[name]命令  
     NVM使用说明：  
     https://github.com/coreybutler/nvm-windows/  
-    NPM的目录之后使用再配置
-## 配置Python环境  
+    NPM的目录之后使用再配置  
+    
+### nvm 和 npm之间的区别  
+    nvm：nvm是node版本管理工具，可以决定项目使用node的版本和npm版本  
+    npm：npm是和node一起安装的包管理工具，用来管理第三方插件  
+ 常用于如下两个场景:  
+   >+允许开发者从npm服务器下载第三方插件到项目中使用  
+   >+允许开发者上传自己写的包到npm服务器供别的开发者使用
+## 配置Python环境   
 Node中有些第三方的包是以C/C++源码的方式发布的，需要安装后编译 确保全局环境中可以使用python命令  
 
 ## 环境变量的概念  
