@@ -49,7 +49,7 @@
 >+BOM和DOM可以说是浏览器提供的一些接口
     
 >+Java既是一种语言也是一种平台，  Java是运行在Java虚拟机上的（跨操作系统）  
->+PHP既是一种语言也是一种平台，使用php-fpm解析，具体可看：https://segmentfault.com/q/1010000007110088?_ea=1240894
+>+PHP既是一种语言也是一种平台，使用php-fpm解析，具体可看：https://segmentfault.com/q/1010000007110088?_ea=1240894  
 >+C#语言的平台：.NET Framework(Windows)  
 >+C#语言也可以运行在MONO平台上  
 >+因为有需求将C#运行在Linux上，才有MONO的出现
