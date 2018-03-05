@@ -72,7 +72,8 @@ Node.js' package ecosystem, npm, is the largest ecosystem of open source librari
     Node可以用来开发服务端应用程序，Web系统；
     基于Node的前端工具集
 
-# nodeJS的NVM环境配置以及常用的Windows命令  
++   node的组成：Chrome V8 + libu
+# nodeJS的NVM环境配置以及常用的Windows命令    
 
 一，Windows下命令行工具Powershell和Cmd的区别？  
 >+CMD占用系统内存小，Powershell占用内存多  
