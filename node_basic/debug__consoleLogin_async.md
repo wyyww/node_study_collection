@@ -9,24 +9,40 @@
 
 ### 使用Node模拟两次^c实现退出当前应用环境  
 `  
+
 setInterval(() =>{
-    process.stdout.write('1\n');
-  },1000);
-  var exiting = false;
-  process.on('SIGINT',()=>{
-    if(exiting){
-      //退出node进程
-      process.stdout.write('退出');
-      process.exit();
-    }
-    else{
-      //第一次按下
-      process.stdout.write('再次按下^C退出');
+   
+   process.stdout.write('1\n');
+ 
+ },1000);
+ 
+ var exiting = false;
+ 
+ process.on('SIGINT',()=>{
+   
+   if(exiting){
+   
+   //退出node进程
+   
+   process.stdout.write('退出');
+   
+   process.exit();
+   
+   } 
+   
+   else{  
+   
+   //第一次按下   
+      
+      process.stdout.write('再次按下^C退出');
+      
       exiting = true;
       
       setTimeout(() => {exiting = false;},2000);
-    }
-  })`  
+    
+    }
+ 
+ })`  
   > 这里有两点需要注意的，第一点就是使用SIGINT来捕获当前进程接收到的信号（比如crtl+C）,第二点就是两次^C之间是在一定时间间隔内按下才能实现退出
 
 ### 控制台登录  
