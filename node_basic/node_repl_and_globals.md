@@ -44,5 +44,13 @@ node中有可能会常用的参数如下：  
   >process.stdout.write() 向控制台输出指定内容  
   >node如何实现清空控制台：  
   * 通过getWindowSize()获取控制台宽高，然后打印等高的换行实现；  
-  * 通过process.stdout.write('\033[2J')和process.stdout.write('\033[0f') 直接清空控制台
+  * 通过process.stdout.write('\033[2J')和process.stdout.write('\033[0f')  
   
+  ### node中的全局函数
+   *     setInteval(callback,millisecond)   
+  * clearInterval(timer)
+  * setTimeout(callbak,millisecond)
+  * clearTImeout(timer)
+  * Buffer:Class  
+  > -用于操作二进制数据  
+  
