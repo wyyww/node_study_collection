@@ -12,13 +12,48 @@
   3.  第三方模块：第三方开发人员开源的功能模块，npm  
   
 ### CMD和AMD以及CommonJs定义模块的方式  
-1.  CMD  
-` define('moduleName','dependModule'，function(require,exports,module){`
- `  var x = require('./x');`  
- 
+1.  CMD  的可以接收三个参数，第三个参数可为函数，对象或字符串  
+* require 是一个方法，接受 模块标识 作为唯一参数，用来获取其他模块提供的接口。  
+* exports 是一个对象，用来向外提供模块接口。  
+* module 是一个对象，上面存储了与当前模块相关联的一些属性和方法  
 
-  ` // 无法立刻得到模块 x 的属性 a`  
+` define('moduleName','dependModule'，function(require,exports,module){`  
+
+   `  var x = require('./x');`  
+ 
+   ` // 无法立刻得到模块 x 的属性 a`  
   
    `   console.log(x.a); // undefined` 
    
-`})`
+`})`  
+
+2. AMD规范定义方式，
+`define("alpha", ["require", "exports", "beta"], function (require, exports, beta) {`  
+
+       `exports.verb=function() {` 
+       
+        `   return beta.verb();` 
+        
+       `    //Or:returnrequire("beta").verb();` 
+       
+        `}` 
+  `});`  
+  
+  3. CommonJs的规范定义方式  
+  module.js  
+  
+  `function  add(a,b){`  
+   `return a + b;`  
+  `}`  
+  
+  module.exports = {add};
+  
+  
+  ### 模块内的全局环境（伪，该全局环境的意思指代仅在模块内部空间为全局变量）  
+  
+1. __dirname：用于获取当前文件所在目录的完成路径（文件上一层），在REPL环境无效；
+2. __filename:用于获取当前文件完整的路径，在REPL环境无效；    
+  * 在Node中文件查找是以入口文件为基准查找文件，要求所有文件操作都必须为*绝对路径*  
+3. module:模块对象  
+4. exports: 映射到module.exports的别名，一般导出模块exports = module.exports = {}  
+5. require:用于引入一个模块
