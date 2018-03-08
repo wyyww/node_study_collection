@@ -115,3 +115,39 @@ rl.on('line', (line) => {
  console.log(`Line from file: ${line}`);  
  });
 
+
+#### 文件写入
+> 同步，异步，写入流进行写入
+* fs.writeFile(path.join(_ _ dirname,'../temp.txt'), JSON.stringify({id:10}), (err) => {}),异步写入文件
+* fs.writeFileSync(file, data[, options])，同步写入文件
+* 通过文件流的方式写入文件  
+> var streamWriter = fs.createWriteStream(path.join(__dirname,'../temp.text'));  
+setInterval(() =>{  
+streamWriter.write("hello",() =>{  
+   console.log(+1);  
+   })},1000);  
+
+> 文件写入可能出错的地方：意外错误，文件权限问题，文件夹找不到（Node不会自动创建文件）
+
+ #### 追加文件
+ > fs.appendFile(path.join(_ _ dirname,'../temp.txt'), JSON.stringify({id:10}), (err) => {})
+ 
+ 追加和写入的区别是：写入默认的是覆盖原本的文件
+ 
+ 
+ #### 打印当前目录下所有的文件信息
+ >//打印当前目录下所有文件  
+ const fs = require('fs');  
+ const path = require('path');  
+ //获取当前有没有传入目标路径  
+ var target = path.join(__dirname,process.argv[2] || './')  
+ //为了避免文件大小导致的读取时间不同，可使用同步读取来避免交叉结果    
+ fs.readdir(target,(err,files) => {  
+    files.forEach((file)=>{  
+    // console.log(path.join(target,file));  
+    fs.stat(path.join(target,file),(err,stats) => {  
+    console.log(`${stats.mtime }\t${stats.ctime}\t${file}`)  
+    })  
+    })  
+ })
+ 
