@@ -55,9 +55,18 @@
 * path.win32
 
 
+####  文件读取的同步和异步，文件编码的问题
+> 区别就在于同步会阻塞代码的执行，异步则不会阻塞
 
 
+> 文件编码可能出现乱码：只有中文才会有编码问题；  使用*iconv-lite*库进行编码转换
+> 读取文件的时候，直接读取出现的就是二进制的buffer流，而不是中文数据；结局的方式就是  
 
+ `  
+ fs.readFile(path.join(_ _ dirname,'../module.js'),(err,data) => {`  
+ `if(err) throw err;`  
+ `console.log(data.toString('utf8'))`  
+ `})`
 
 
 
