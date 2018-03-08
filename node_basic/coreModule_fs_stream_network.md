@@ -33,6 +33,7 @@
 * npm update:更新包
 * npm cache:缓存的包
 
+------------------
 
 ### 文件操作
 > --在文件操作的过程中，都“必须”使用物理路径(绝对路径)  
@@ -99,3 +100,18 @@ console.log(data);
 * 通过buffer的data事件监听每次读取缓冲区的内容，取到每次读取的文件片段
 * 用字符串将文件的片段chunk进行拼接
 * 通过buffer的end事件判断文件读取结束，并对文件内容进行处理
+
+#### 通过readline进行逐行读取
+>//通过流的方式读取文件 
+const fs = require('fs');  
+const path = require('path');  
+var iconv = require('iconv-lite');  
+const readline = require('readline');  
+let filename = path.join(__dirname,'./beyond.txt');   
+let readStreamer = fs.createReadStream(filename).pipe(iconv.decodeStream('gbk'));  
+//确定每次给你的就是一行内容  
+const rl = readline.createInterface({input: readStreamer});  
+rl.on('line', (line) => {  
+ console.log(`Line from file: ${line}`);  
+ });
+
