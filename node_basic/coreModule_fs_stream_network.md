@@ -32,3 +32,33 @@
 * npm outdated:判断包是否更新
 * npm update:更新包
 * npm cache:缓存的包
+
+
+### 文件操作
+> --在文件操作的过程中，都“必须”使用物理路径(绝对路径)  
+> --相关模块：fs,path,readline(读取大文本，一行一行地读),fs-extra(第三方)  
+
+##### path中的一些常用属性
+* path.basename(path[, ext]):截取路径的文件名
+* path.delimiter：获取不同操作系统中默认的路径分隔符，window是；，Linus是：. 和 process.env.Path.split(path.delimiter)使用,末尾为空成员 
+* path.dirname(path):获取当前目录名称  
+* path.extname(path):获取后缀名，如，'.html','.txt'  
+* path.isAbsolute(path)  
+* path.join([...paths]):拼接路径  
+* path.normalize(path)  ：常规化一个地址，去除斜线，转义斜线什么的，主要为window设计
+* path.parse(path):转化，将路径字符串转换为一个对象，包含文件目录，文件名，文件扩展名  
+* path.format(pathObject)  :将对象路径转成字符串  
+* path.posix  
+* path.relative(from, to)  ：获取后面相对于前面路径的一个相对路径
+* path.resolve([...paths])  ：绝对路径，跟join差不多
+* path.sep:获取当前操作系统中默认的路径分隔符；'foo/bar/baz'.split(path.sep);  
+* path.win32
+
+
+
+
+
+
+
+
+
