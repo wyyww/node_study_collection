@@ -75,5 +75,27 @@
  `})`
 
 
+#### 通过Buffer流的方式读取大文件
+> //通过流的方式读取文件  
+const fs = require('fs');  
+const path = require('path');  
+var iconv = require('iconv-lite');  
+const readline = require('readline');  
+let filename = path.join(__dirname,'./beyond.txt');  
+let readStreamer = fs.createReadStream(filename);  
+let data ='';  
+readStreamer.on('data',(chunk) =>{  
+// console.log(chunk.toString());  
+data +=iconv.decode(chunk, 'gbk');  
+})  
+readStreamer.on('end',() =>{  
+console.log(data);  
+})
 
 
+对于大文件来说，如果通过直接都去进行操作，若文件过大必然会有阻塞卡顿，通过文件流的方式读取可以节省内存消耗和时间，具体读取过程如下：
+* 在内存中根据系统创建一个Buffer读取流（buffer大小由系统指定）
+* 从文件中每次读取和buffer空间大小相同的内容，读取到缓冲区中
+* 通过buffer的data事件监听每次读取缓冲区的内容，取到每次读取的文件片段
+* 用字符串将文件的片段chunk进行拼接
+* 通过buffer的end事件判断文件读取结束，并对文件内容进行处理
