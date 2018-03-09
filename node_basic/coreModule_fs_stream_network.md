@@ -316,3 +316,14 @@ var template =
 </html>
 `
 ```
+
+#### 给转换过格式的html添加样式
+> 因为css文件和和HTML文件位置的不同，如果直接引入css文件则在项目移植的时候会出现不可控的问题，解决方式就是把css文件都取出来，  
+然后在写入到HTML文件中  
+
+```
+  fs.readFile(path.join(__dirname,'github.css'),'utf8',(err,css) => {
+        html = template.replace('{{{content}}}',html).replace('{{{styles}}}',css);
+        fs.writeFile(target.replace(path.extname(target),'.html'),html,'utf8');
+      });
+```
