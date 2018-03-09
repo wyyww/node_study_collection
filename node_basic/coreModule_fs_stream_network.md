@@ -159,6 +159,13 @@ streamWriter.write("hello",() =>{
  ```
  
  #### 自己实现一个创建层级目录
+ > 因为系统之间的差异，在windows和Linux系统下的现象不同，一般出错都在于Windows  
+ * 不同系统之间的文件分隔符，如："/","\\"
+ * 传入路径为相对路径和绝对路径的处理
+ * 创建文件时候需要判断文件是否存在
+ * Windows中创建很多层目录导致目录无法删除，处理方法：使用winArR添加压缩，设置为添加压缩后删除文件，再把压缩包删除
+ 
+ mkdirs('demo2/demo3/demo4');
  ``` 
  //创建层级目录
 
@@ -195,3 +202,49 @@ function mkdirs(pathname,callback){
 module.exports = mkdirs;
 ```
  
+----------------------
+
+#### 文件中的__dirname不能乱用
+> 上面的案例中虽然可以创建层级目录，但是如果案例调用路径书写方式修改则就无法运行，原因就在于__dirname的使用上
+
+mkdirs('./demo2/demo3/demo4');
+```
+function mkdirs(pathname,callback){
+   
+    // console.log(module.parent)//拿到的就是调用我的js文件路径
+    var root = path.dirname(module.parent.filename);
+   
+
+    
+    pathname = path.isAbsolute(pathname) ? pathname : path.join(root,pathname);
+
+   let relativePath = path.relative(root,pathname);
+ 
+    let folders = relativePath.split(path.sep);//[ 'demo1', 'demo2' ]
+
+    
+    try{
+        var pre = '';
+        folders.forEach( folder =>{
+          
+            //判断文件是否存在
+        //    if(!fs.existsSync(path.join(root,pre,folder))){
+        //        //文件目录不存在
+        //        fs.mkdirSync(path.join(root,pre,folder))
+        //    }
+
+           try{
+            //如果文件不存在
+            fs.statSync(path.join(root,pre,folder));
+           }catch(error){
+            fs.mkdirSync(path.join(root,pre,folder));
+           }
+            pre = path.join(pre,folder);
+        })
+        callback && callback(null);
+    }catch(error){
+        callback && callback(error);
+    };
+   
+}
+```
