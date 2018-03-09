@@ -248,3 +248,15 @@ function mkdirs(pathname,callback){
    
 }
 ```
+
+
+### 文件监视
+#### 通过文件监视实现自动转换markdown文件转换；*marked*插件可以进行转换
+
+> 文件打开之后是内存当中存在，保存就是把内存的内容在保存到磁盘
+
+实现思路：
+* 通过文件监视watchFile监视指定md文件
+* 当文件内容发生变化的时候，借助“marked”包提供的“markdown” to “html”功能将改变后的md文件转换成html文件
+* 再将得到的HTML替换到模板中
+* 最后利用Browser Sync模块实现浏览器自动刷新
