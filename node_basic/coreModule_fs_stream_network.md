@@ -260,3 +260,59 @@ function mkdirs(pathname,callback){
 * 当文件内容发生变化的时候，借助“marked”包提供的“markdown” to “html”功能将改变后的md文件转换成html文件
 * 再将得到的HTML替换到模板中
 * 最后利用Browser Sync模块实现浏览器自动刷新
+
+
+```
+//文件监视
+
+//利用文件监视实现自动markdown文件转换
+
+const fs = require('fs');
+const path = require('path');
+const marked = require('marked');
+
+
+//接受需要转换的文件路径
+
+const target = path.join(__dirname,process.argv[2] || '../README.md');
+
+//监视文件变化
+fs.watchFile(target,(curr,prev) =>{
+    // console.log(`the current size is: ${curr.size}`);
+    // console.log(`the previous size was: ${prev.size}`);
+
+    //判断文件是否发生变化
+    if(curr.mtime === prev.mtime){
+        return false;
+    }
+    //读取文件，转换成新的html
+    fs.readFile(target,'utf8',(err,content) =>{
+       if(err){
+           throw err;
+       }
+      let html = marked(content);
+
+      html = template.replace('{{{content}}}',html);
+
+      fs.writeFile(target.replace(".md",'.html'),html,'utf8');
+    })
+})
+
+var template =
+`
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        {{{content}}}
+    </div>
+</body>
+</html>
+`
+```
