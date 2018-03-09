@@ -69,15 +69,17 @@
 > 文件编码可能出现乱码：只有中文才会有编码问题；  使用*iconv-lite*库进行编码转换
 > 读取文件的时候，直接读取出现的就是二进制的buffer流，而不是中文数据；解决的方式就是  
 
- `  
+ ```  
  fs.readFile(path.join(_ _ dirname,'../module.js'),(err,data) => {`  
  `if(err) throw err;`  
  `console.log(data.toString('utf8'))`  
- `})`
+ `})
+ ```
 
 
 #### 通过Buffer流的方式读取大文件
-> //通过流的方式读取文件  
+```
+//通过流的方式读取文件  
 const fs = require('fs');  
 const path = require('path');  
 var iconv = require('iconv-lite');  
@@ -92,6 +94,7 @@ data +=iconv.decode(chunk, 'gbk');
 readStreamer.on('end',() =>{  
 console.log(data);  
 })
+```
 
 
 对于大文件来说，如果通过直接都去进行操作，若文件过大必然会有阻塞卡顿，通过文件流的方式读取可以节省内存消耗和时间，具体读取过程如下：
@@ -102,7 +105,8 @@ console.log(data);
 * 通过buffer的end事件判断文件读取结束，并对文件内容进行处理
 
 #### 通过readline进行逐行读取
->//通过流的方式读取文件 
+```
+//通过流的方式读取文件 
 const fs = require('fs');  
 const path = require('path');  
 var iconv = require('iconv-lite');  
@@ -112,8 +116,9 @@ let readStreamer = fs.createReadStream(filename).pipe(iconv.decodeStream('gbk'))
 //确定每次给你的就是一行内容  
 const rl = readline.createInterface({input: readStreamer});  
 rl.on('line', (line) => {  
- console.log(`Line from file: ${line}`);  
+   console.log(`Line from file: ${line}`);  
  });
+ ```
 
 
 #### 文件写入
@@ -136,7 +141,8 @@ streamWriter.write("hello",() =>{
  
  
  #### 打印当前目录下所有的文件信息
- >//打印当前目录下所有文件  
+ ```
+ //打印当前目录下所有文件  
  const fs = require('fs');  
  const path = require('path');  
  //获取当前有没有传入目标路径  
@@ -150,4 +156,42 @@ streamWriter.write("hello",() =>{
     })  
     })  
  })
+ ```
+ 
+ #### 自己实现一个创建层级目录
+ ``` 
+ //创建层级目录
+
+const fs = require('fs');
+const path = require('path');
+
+//创建文件，定义模块成员，导出模块成员，载入模块，使用模块
+
+function mkdirs(pathname,callback){
+    //首先需要判断的就是传入的是否为一个绝对路径，不需要加前缀了
+    pathname = path.isAbsolute(pathname) ? pathname : path.join(__dirname,pathname);
+
+    //获取需要创建的部分
+    // pathname = pathname.replace(__dirname,'');
+   let relativePath = path.relative(__dirname,pathname);//目录对比,获取创建目录,注意posix中不同系统的差异   posix(linux系统)
+    // console.log(relativePath)
+    let folders = relativePath.split(path.sep);//[ 'demo1', 'demo2' ]
+
+    
+    try{
+        var pre = '';
+        folders.forEach( folder =>{
+          
+            fs.mkdirSync(path.join(__dirname,pre,folder))
+            pre = path.join(pre,folder);
+        })
+        callback && callback(null);
+    }catch(error){
+        callback && callback(error);
+    };
+   
+}
+
+module.exports = mkdirs;
+```
  
