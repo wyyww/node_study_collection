@@ -16,3 +16,33 @@ fs.createWriteStream()=>得到一个WritableStream
 大文件直接读取的问题：
 * 大文件拷贝，内存受不了
 * 没有进度显示
+
+
+####  文件读取写入的两种好用方式
+```
+const fs = require('fs');
+const path = require('path');
+
+let readStream = fs.createReadStream(path.join(__dirname,'../github.css'));
+let writeStream = fs.createWriteStream(path.join(__dirname,'../github1.css'));
+
+1,//buffer流的方式进行读取，写入
+readStream.on('data', (chunk) => {
+    
+  writeStream.write(chunk,(err) =>{
+    console.log('写入中');
+  })
+});
+readStream.on('end',(err) =>{
+  console.log("读取结束")
+})
+
+2,//管道的方式进行读取写入
+writeStream.on('pipe',(src) =>{
+  console.log(src === readStream);
+})
+//管道的方式写入,支持链式编程,但每次写入的到的需要是一个管道流
+readStream
+      .pipe(writeStream)
+
+```
