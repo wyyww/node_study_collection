@@ -113,3 +113,14 @@ const client = net.createConnection({ port: 2080 }, () => {
 ```
 
 小作业：基于socket实现聊天室
+
+
+####  浏览器的本质作用：
+*   将用户输入的URL封装成一个请求报文
+*   建立与服务器的SOcket链接
+*   将封装好的请求报文通过socket发送给服务器端
+*   server.write(JSON.stringify(data));
+*   ......等待服务器端的响应
+*   接收到服务端返回的响应报文
+*   解析响应报文（JSON.parse()）
+*   渲染内容到界面，执行js
