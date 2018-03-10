@@ -4,8 +4,8 @@
 > 流的概念:程序中输入或输出的一个连续的字节序列;  
 > 文件流就是以面向对象的概念对文件数据进行的抽象  
 > 文件流定义了一些对文件数据的操作方式  
-API:  
-fs.createReadStream() =>得到一个ReadbleStream  
+API:  实际上和通过buffer读取文件一样，是通过缓冲区一点一点取
+fs.createReadStream() =>得到一个ReadbleStream  
 fs.createWriteStream()=>得到一个WritableStream
 
 比如从一个水桶往另外一个水桶倒水的方式：
