@@ -82,3 +82,32 @@ serer.listen(port,(err) =>  {
     }
 })
 ```
+
+建立一个client客户端
+```
+
+
+//创建客户端
+
+const net = require('net');
+
+//建立连接之后执行回掉
+const client = net.createConnection({ port: 2080 }, () => {
+    //'connect' listener
+    console.log('已经连接到服务端');
+
+    process.stdout.write('\n client >')
+    process.stdin.on('data',(chunk) => {
+        process.stdout.write('\n client >')
+        client.write(chunk.toString().trim());
+      })
+
+      client.on('data',(chunk) =>{
+        console.log('\n' + chunk.toString('utf8'));
+    })
+  });
+
+  client.on('end', () => {
+    console.log('disconnected from server');
+  });
+```
