@@ -124,3 +124,5 @@ const client = net.createConnection({ port: 2080 }, () => {
 *   接收到服务端返回的响应报文
 *   解析响应报文（JSON.parse()）
 *   渲染内容到界面，执行js
+
+浏览器就是一个socket客户端
