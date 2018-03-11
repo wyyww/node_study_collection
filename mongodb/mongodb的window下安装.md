@@ -88,6 +88,4 @@ logpath=D:\software\MongoDB\data\log\mongo.log
                  
 
 
-### shell基本操作  
 
-### BSON扩充的数据类型
