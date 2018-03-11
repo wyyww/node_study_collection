@@ -69,4 +69,15 @@
   pop:从指定数组删除一个值，若1则删除最后一个数值，若-1则删除第一个数值  
   pull:删除一个指定的数值  
   pullAll:
+  
+ ![image](https://github.com/wyyww/wxyyww_images/blob/master/screenShot/Screenshot_2018-03-11-15-58-12.png)    
   
+  
+6.$addToSet与$each结合完成批量数组更新  
+   db.text.update({_ id:1000},{$addToSet:{books:{$each:["JS","DB"]}}})  
+   
+   $each会循环后面的数组把每一个数值进$addToSet操作  
+   
+7.   存在分配与查询效率  
+     当document被创建的时候，DB为其分配内存和预留内存当修改操作  
+     不超过预留内存的时候则速度非常快反而超过了就要分配新的内存则会消耗时间
