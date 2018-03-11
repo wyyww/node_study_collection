@@ -85,7 +85,7 @@
 8.runCommand函数与findAndModify函数   
      runCommand函数可以执行mongoDB中的特殊函数  
      findAndModify就是特殊函数之一，它用于返回update或者remove后的文档  
-     ```
+ ```
      runCommand({
           findAndModify:"progresses",
           query:{查询器},
@@ -103,5 +103,5 @@
           update{$set:{email:"1221"}},
           new:true
      }).value
-     
-     ```
+ ```
+     局限就是findAndModify一次只能更新一次文档，不能批量处理文档
