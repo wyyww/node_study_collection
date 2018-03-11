@@ -1,0 +1,28 @@
+## 配置shell客户端
+
+shell的内部就是JavaScript客户端
+mongo 127.0.0.1:27017/admin
+
+
+* 创建一个数据库  
+  user [databaseName]:但是你什么也不干就离开的话这个空数据库就会被删除；他只是在缓存区待着，不干任何活退出则自动删除了
+* 查看所有数据库
+    ```show dbs```
+* 给指定数据库添加集合并且添加记录
+    ```db.[docuemntName].insert({...})```
+     db.persons.insert<{name:"uspacr"}>：当使用一个数据库的时候，db指代的就是当前数据库，在此会创建一个persons的集合,  
+      并添加一个name信息，同时mongodb会自动添加一个id
+* 查看数据库中的所有文档
+    show collections
+    
+    db.system.indexes.find()://我创建的数据库并没有system.indexes这个集合
+* 查询指定文档的数据
+   查询所有的文档数据 db.[docuemntName].find()
+    
+   查询第一条数据 db.[docuemntName].findOne()
+* 更新文档数据
+    db.[documentName].update({查询条件},{更新内容})
+    例子：db.persons.update({name:"extjs"},{$set:{name:"extjs333"}}):set用来修改数据，也可以添加内容  
+          db.persons.update({name:"extjs"},{$set:{age:23,name:"extjs333"}})
+* 删除文档中的数据(可以删除任何数据)
+    db.[documentName].remove({})
