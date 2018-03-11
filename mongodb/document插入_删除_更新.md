@@ -78,6 +78,30 @@
    
    $each会循环后面的数组把每一个数值进$addToSet操作  
    
-7.   存在分配与查询效率  
-     当document被创建的时候，DB为其分配内存和预留内存当修改操作  
-     不超过预留内存的时候则速度非常快反而超过了就要分配新的内存则会消耗时间
+7.   存在分配与查询效率  （一定要理解）
+     当document被创建的时候，DB为其分配内存和预留内存当修改操作  
+     不超过预留内存的时候则速度非常快反而超过了就要分配新的内存则会消耗时间
+
+8.runCommand函数与findAndModify函数   
+     runCommand函数可以执行mongoDB中的特殊函数  
+     findAndModify就是特殊函数之一，它用于返回update或者remove后的文档  
+     ```
+     runCommand({
+          findAndModify:"progresses",
+          query:{查询器},
+          sort{排序},
+          new:true,
+          update{更新器},
+          remove:true
+     }).value
+     
+     例如：
+      ps = db.runCommand({
+          findAndModify:"persons",
+          query:{name:"text"},
+         
+          update{$set:{email:"1221"}},
+          new:true
+     }).value
+     
+     ```
