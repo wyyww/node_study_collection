@@ -122,9 +122,103 @@ while(persons.hasNext()){
       3.这样也问题看例子:
  	    db.persons.find({"school.score":"A","school.school":”J”},{_ id:0,school:1})
           同样能查出刚才那条数据,原因是score和school会去其他对象对比
-      4.正确做法单条条件组查询$elemMatch
-           db.persons.find({school:{$elemMatch:{school:"K",score:"A"}}})
+      4.正确做法单条条件组查询$elemMatch，解决顺序和作用域问题
+           db.persons.find({school:{$elemMatch:{school:"K",score:"A"}}})
 
  
+ 12.$where查询  
+   2.12 查询年龄大于22岁,喜欢看C++书,在K学校上过学的学生信息  
+   复杂的查询我们就可以用$where因为他是万能  
+   但是我们要尽量避免少使用它因为他会有性能的代价  
+```
+   db.persons.find({"$where":function(){
+	//得到查询结果的每一条文档
+	var books = this.books;
+	//得到文档中的school对象
+	var school = this.school;
+	//如果年纪>=22
+	if(this.age > 22){
+		var php = null;
+		//遍历书籍
+		for ( var i = 0; i < books.length; i++) {
+			if(books[i] == "C++"){
+				php = books[i];
+				//如果学校是真
+				if(school){
+					for (var j = 0; j < school.length; j++) {
+						//判断是不是在K上学
+						if(school[j].school == "K"){
+							//返回是真
+							return true;
+						}
+					}
+					break;
+				}
+			}
+		}	
+	}
+}})
+
+```
+
+### 分页与排序  
+1.  limit返回指定的数据条目  
+  1.1查询出persons文档中前五条数据  
+  ``` db.persons.find({},{_id:0,name:1}).limit(5)```  
+  
+2. Skip返回指定数据的跨度  
+  2.1 查询出persons文档中5~10条的数据  
+  ```
+  db.persons.find({},{_id:0,name:1}).limit(5)
+{ "name" : "jim" }
+{ "name" : "tom" }
+{ "name" : "lili" }
+{ "name" : "zhangsan" }
+{ "name" : "lisi" }
+> db.persons.find({},{_id:0,name:1}).limit(5).skip(5)
+{ "name" : "wangwu" }
+{ "name" : "zhaoliu" }
+{ "name" : "piaoyingjun" }
+{ "name" : "lizhenxian" }
+{ "name" : "lixiaoli" }
+>
+```
+
+#### 排序  
+3.Sort返回按照年龄排序的数据(1:正序，-1：倒叙)  
+```db.persons.find({},{_id:0,name:1,age:1}).limit(5).skip(5).sort({age:1})```  
+```
+注意:mongodb的key可以存不同类型的数据排序就也有优先级
+    最小值
+    null
+    数字
+    字符串
+    对象/文档
+    数组
+    二进制
+    对象ID
+    布尔
+    日期
+     时间戳  正则  最大值  
+```
+
+
+
+4.4.Limit和Skip完成分页
+
+```
+    4.1三条数据位一页进行分页
+          第一页->db.persons.find({},{_ id:0,name:1}).limit(3).skip(0)
+          第二页->db.persons.find({},{_ id:0,name:1}).limit(3).skip(3)
+    4.2skip有性能问题,没有特殊情况下我们也可以换个思路
+          对文档进行重新解构设计:添加date数据  
+	每次查询操作的时候前后台传值全要把上次的最后一个文档的日期保存下来
+	db.persons.find({date:{$gt:日期数值}}).limit(3)
+	个人建议应该把软件的重点放到便捷和精确查询上而不是分页的性能上
+	因为用户最多不会翻查过2页的
+```
+
+### 游标  
+1.  利用游标遍历查询数据  
 
 
