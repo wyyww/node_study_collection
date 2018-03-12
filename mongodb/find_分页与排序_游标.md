@@ -76,7 +76,32 @@ $in或$nin：  两个作用对象是数组不是其他对象
   
   2.10 查询出喜欢的书籍数量大于3本的学生  
   1.增加字段size  
+  ```db.persons.update({},{$set:{size:4}},false,true)```  
   
   2.改变书籍的更新方式，每次增加书籍的时候，size加1  
+  ```db.persons.update({},{$push:{books:"ORACLE"},$inc:{size:1}})```  
   
-  3.利用$gt进行查询
+  3.利用$gt进行查询  
+  ``` db.persons.find({size:{$gt:3}})```  
+  
+  2.11 利用shell查询出jim喜欢看的书的数量  
+ ```
+ var persons = db.persons.find({name:"jim"})
+while(persons.hasNext()){
+	obj = persons.next();
+        print(obj.books.length)
+} 
+```
+
+
+      课间小结
+               1.mongodb 是NOSQL数据库但是他在文档查询上还是很强大的
+               2.查询符基本是用到花括号里面的更新符基本是在外面
+               3.shell是个彻彻底底的JS引擎,但是一些特殊的操作要靠他的
+                   各个驱动包来完成(JAVA,NODE.JS)
+                   
+                   
+ ---------------------------------------------------
+ 
+
+
