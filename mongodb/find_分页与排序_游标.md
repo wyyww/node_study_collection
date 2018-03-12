@@ -115,8 +115,8 @@ while(persons.hasNext()){
       
       2.13查询出在K上过学的学生
       
-      1. 这个我们用绝对匹配可以完成,但是有些问题(找找问题?顺序?总要带着score?)
-           db.persons.find({school:{school:"K",score:"A"}},{_ id:0,school:1})
+      1. 这个我们用绝对匹配可以完成,但是有些问题(找找问题?顺序?总要带着score?),局限性太大
+           db.persons.find({school:{school:"K",score:"A"}},{_ id:0,school:1})
       2.为了解决顺序的问题我可以用对象”.”的方式定位
            db.persons.find({"school.score":"A","school.school":"K"},{_ id:0,school:1})
       3.这样也问题看例子:
