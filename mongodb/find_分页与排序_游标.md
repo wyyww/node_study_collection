@@ -220,5 +220,26 @@ while(persons.hasNext()){
 
 ### 游标  
 1.  利用游标遍历查询数据  
+利用游标遍历查询数据var  persons = db.persons.find();  
+游标只能读取一遍，读取完了就会释放
 
+2.游标几个销毁的条件  
+*  客户端发来信息叫他销毁 
+*  游标迭代完毕
+*  默认游标超过10分钟没用也会被清楚
 
+3.游标快照  
+快照后就会针对不变的集合进行游标运动了，使用方法  
+
+```
+ db.persons.find({$query:{name:”Jim”},$snapshot:true})
+    高级查询选项
+    $query
+    $orderby
+    $maxsan：integer 最多扫描的文档数
+    $min：doc  查询开始
+    $max：doc  查询结束
+    $hint：doc   使用哪个索引
+    $explain:boolean  统计
+    $snapshot:boolean 一致快照
+```
