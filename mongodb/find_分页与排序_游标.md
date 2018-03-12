@@ -53,6 +53,30 @@ $in或$nin：  两个作用对象是数组不是其他对象
  ```db.persons.find({sex:null},{_id:0,country:1,name:1})```  
  ```db.persons.find({sex:{$in:[null]}},{_id:0,country:1,name:1})```
  
- 2.7  正则查询  
+ 7  正则查询  
  2.6查询出名字中存在"li"的学生的信息
+ ```db.persons.find({name:/li/i},{_id:0,name:1})```  
  
+8.  $not的使用  
+ $not可以用到任何地方进行取反操作  
+ 2.7 查询出名字中不存在"li"的学生的信息  
+ 
+ ```db.persons.find({name:{$not:/li/i}},{_id:0,name:1})```  
+ $not和$nin的区别在于$not 可以用在任何地方，而$nin是用到集合上的  
+ 
+ 9. 数组查询$all和index应用  
+ 2.8 查询喜欢看MONGODB和JS的学生  
+ ```db.persons.find({books:{$all:["JS","MONGODB"]}},{_id:0,name:1,books:1})```  
+ 2.9 查询第二本是是JAVA的学生信息  
+ ``` db.persons.find({"books.1":"JAVA"},{_id:0,name:1})```  
+ 
+ 10. 查询指定长度数组$size他不能与比较查询符一起使用（这是弊端）  
+  2.10 查询出喜欢的书籍是4本的学生  
+  ``` db.persons.find({books:{$size:4}},{_id:0,name:1})```  
+  
+  2.10 查询出喜欢的书籍数量大于3本的学生  
+  1.增加字段size  
+  
+  2.改变书籍的更新方式，每次增加书籍的时候，size加1  
+  
+  3.利用$gt进行查询
