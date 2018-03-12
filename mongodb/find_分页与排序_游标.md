@@ -106,7 +106,25 @@ while(persons.hasNext()){
    2.11 查询出jim书架中第2~4本书  
    ``` db.persons.find({name:"tom"},{books:{$slice:[1,3]},_id:0})```  
    
-   2.12	
-    
+   2.12	 查询出最后一本书  
+   ``` db.persons.find({name:"tom"},{books:{$slice:-1},_id:0})```
+   
+11.文档查询  
+    
+      为jim添加学习简历文档 jim.json 
+      
+      2.13查询出在K上过学的学生
+      
+      1. 这个我们用绝对匹配可以完成,但是有些问题(找找问题?顺序?总要带着score?)
+           db.persons.find({school:{school:"K",score:"A"}},{_ id:0,school:1})
+      2.为了解决顺序的问题我可以用对象”.”的方式定位
+           db.persons.find({"school.score":"A","school.school":"K"},{_ id:0,school:1})
+      3.这样也问题看例子:
+ 	    db.persons.find({"school.score":"A","school.school":”J”},{_ id:0,school:1})
+          同样能查出刚才那条数据,原因是score和school会去其他对象对比
+      4.正确做法单条条件组查询$elemMatch
+           db.persons.find({school:{$elemMatch:{school:"K",score:"A"}}})
+
+ 
 
 
