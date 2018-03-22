@@ -24,37 +24,49 @@
 ### 删除数据
 1.  删除列表中的所有数据
 
-    db.[documentName].remove()  
+    db.[documentName].remove({空})  
     集合本身和索引不会删除  
     
  2. 根据条件删除数据  
-    db.[documentName].remove({});
+    db.[documentName].remove({});  全部删除
+    ``` db.text.remove({name:”uspcat”})```  
+    
     
   3.小技巧  
   > 如果你想删除一个数据量十分庞大的集合，直接删除该集合并且重新建立索引的方法，比直接用remove的效率高很多；使用drop删除
   
   
-  ________________________
+  注意：现在remove()官方已经过时了，推荐使用deleteOne()和deleteMany()方法  
+  如删除全部文档：  
+  ```db.[documentName].deleteMany({})```  
+  删除status为A的所有文档:   
+  ```db.[documentName].deleteMany({ status : "A" })```  
+  删除status为D的一个文档:  按照集合顺序删除第一个  
+  ```db.inventory.deleteOne( { status: "D" } )```  
+  
+________________________
   
   
 ### 更新数据
   
   1. 强硬的文档替换式更新操作   
-          db.[documentName].updata({查询器},{修改器}):会直覆直接覆盖之前的操作，文档全部替换了,如何局部更新  
-          
-  2. 主键冲突的时候会报错并且停止更新操作  
+          db.[documentName].updata({查询器},{修改器}):会直接覆盖之前的操作，文档全部替换（_id除外）
+        
+  2. 主键冲突的时候会报错并且停止更新操作  
         因为是强硬替换，当替换的文档和已有的文档ID冲突的时候，则系统会报错
       
   3.insert Or Update操作  
-    目标：查询器查出来数据就执行更新操作，查不出来就替换操作  
+    目标：查询器查出来数据就执行更新操作，查不出来就创建操作
     用法：db.[documentName].updata({查询器},{修改器}, true )
     
    4.批量更新   
      默认情况下当查询器查询出*多条数据*的时候默认就修改第一条数据，而实现批量修改
+     
        db.[documentName].({查询器},{修改器},false,true);
+          批量更新只能用$set等操作符进行更新
           
           
-  5. 使用修改器来完成局部更新操作  
+  5. 使用修改器来完成局部更新操作  
   ![image](https://github.com/wyyww/wxyyww_images/blob/master/screenShot/Screenshot_2018-03-11-15-27-28.png)    
   
   set:有这个键则实行更新，没有这个键则添加这个键  
