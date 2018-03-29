@@ -1,4 +1,4 @@
-### mongodb索引,去重，分组详讲
+### mongodb索引, 去重，分组详讲
 
 1.创建索引  
 ```db.[documentName].ensureIndex({"key":1/-1}):1为正序索引，-1为倒序索引```  
@@ -51,7 +51,18 @@
 ```
   db.runCommand({dropIndexes:"documentName",index:"index_name"})  
   db.runCommand({dropIndexes:"documentName",index:"*"})
-  
+  db.[documentName].dropIndex({"indexName":1})
+```
+
+8.mongodb中建立二维索引，也就是地图索引  
+建立二维索引:  
+```db.[dcumentName].ensureIndex({"gis":"2d"},{min:-1,max:201})```  
+- $near查询，按照目标点查询距离最近的最多100个点  
+```db.map.find({gis:{$near:[70,80]}},{_id:0,gis:1}).limit(3)  查出最近的3个点坐标```  
+- $within:$within可以代替$near来查询一个形状之内的点，也支持$box(矩形)，$center(圆形)  
+```
+ db.map.find({gis:{$within:{$box:[ [50,50], [190,190] ]}}},{_id:0,gis:1})  
+ db.map.find({gis:{$within:{$center:[50,50],70}}},{_id:0,gis:1})
 ```
 
 ensureIndex()创建索引  
@@ -59,4 +70,25 @@ getIndexes()查看索引
 dropIndex删除索引
 
 ### count，distinct,group  
-count:
+- count:在find的查找中，可以根据相应的查找条件，获得数据条数  
+```db.[documentName].find({查询器}).count():返回一个数字，表示查询匹配的数目```  
+
+- distinct:去重，获取集合中指定字段的不重复值，并以数组的形式返回  
+具体用法1,：  
+```
+db.collection_name.distinct(field,query,options)
+
+ 
+
+field -----指定要返回的字段(string)
+
+query-----条件查询(document)
+
+options-----其他的选项(document)
+```
+
+2,利用runCommand进行调用distinct  
+```db.runCommand({distinct:"documentName",key:"field"}).values```
+
+
+
