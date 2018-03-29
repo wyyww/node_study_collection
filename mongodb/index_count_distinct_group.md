@@ -90,5 +90,51 @@ options-----其他的选项(document)
 2,利用runCommand进行调用distinct  
 ```db.runCommand({distinct:"documentName",key:"field"}).values```
 
+- group:分组统计  
+```
+db.runCommand({group:{
+	           ns:集合名字,
+              Key:分组的键对象,
+              Initial:初始化累加器,
+              $reduce:组分解器,
+              Condition:条件,
+              Finalize:组完成器
+      }})
+      分组首先会按照key进行分组,每组的 每一个文档全要执行$reduce的方法,
+      他接收2个参数一个是组内本条记录,一个是累加器数据.
+1.key： 这个就是分组的key 
+2.initial： 每组都分享一个初始化函数，特别注意：是每一组initial函数。 
+3.reduce： 这个函数的第一个参数是当前的文档对象，第二个参数是上一次function操作的累计对象。有多少个文档， $reduce就会调用多少次。 
+4.condition： 这个就是过滤条件。 
+5.finalize： 这是个函数，每一组文档执行完后，多会触发此方法。
+```
+```很完整的调用参照：
+db.runCommand({group:{
+	ns:"persons",
+	$keyf:function(doc){
+		if(doc.counTry){
+			return {country:doc.counTry}
+		}else{
+			return {country:doc.country}
+		}
+	},
+	initial:{m:0},
+	$reduce:function(doc,prev){
+		if(doc.m > prev.m){
+			prev.m = doc.m;
+			prev.name = doc.name;
+			if(doc.country){
+				prev.country = doc.country;
+			}else{
+				prev.country = doc.counTry;
+			}
+		}
+	},
+	finalize:function(prev){
+		prev.m = prev.name+" Math scores "+prev.m
+	},
+	condition:{m:{$gt:90}}
+}})
+```
 
 
