@@ -1,4 +1,4 @@
-### mongodb索引详讲
+### mongodb索引,去重，分组详讲
 
 1.创建索引  
 ```db.[documentName].ensureIndex({"key":1/-1}):1为正序索引，-1为倒序索引```  
@@ -57,3 +57,6 @@
 ensureIndex()创建索引  
 getIndexes()查看索引  
 dropIndex删除索引
+
+### count，distinct,group  
+count:
